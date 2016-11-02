@@ -14,15 +14,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout llMain = (LinearLayout) findViewById(R.id.linearLayoutMain);
+        final LinearLayout llMain = (LinearLayout) findViewById(R.id.linearLayoutMain);
         final EditText etNama = new EditText(this);
         llMain.addView(etNama);
         etNama.setHint("Isikan Nama Anak");
 
-        final EditText etUmur = new EditText(this);
-        llMain.addView(etUmur);
-        etUmur.setHint("Isikan Umur Anak");
-        etUmur.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         setContentView(R.layout.activity_main);
 
         Button bProses = new Button(this);
@@ -33,11 +30,37 @@ public class MainActivity extends AppCompatActivity {
         bProses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nama = etNama.getText().toString();
-                String umur = etUmur.getText().toString();
-
-                tvHasil.setText(nama + " umur " +umur+ " tahun ");
+                doProcess(llMain);
             }
         });
+    }
+
+    private void doProcess(LinearLayout llMain) {
+        String hasil="";
+        for (int i=0; i<5;i++){
+        EditText etNama = (EditText) llMain.getChildAt(i*2);
+        EditText etUmur = (EditText) llMain.getChildAt((i*2)+1);
+
+        String nama = etNama.getText().toString();
+        String umur = etUmur.getText().toString();
+
+            if (umur.isEmpty())
+                umur="0";
+            if(!nama.isEmpty())
+                hasil += "Anak ke-"+": "+nama +" umur "+umur+" tahun\n";
+        }
+
+        TextView tvHasil = (TextView) llMain.getChildAt(11);
+        tvHasil.setText(hasil);
+    }
+
+    private void addEditText(LinearLayout llMain)
+    {
+        for (int i=1; i<= 5; i++){
+        }
+        final EditText etUmur = new EditText(this);
+        llMain.addView(etUmur);
+        etUmur.setHint("Isikan Umur Anak");
+        etUmur.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 }
